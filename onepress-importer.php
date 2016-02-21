@@ -2,7 +2,7 @@
 /*
 Plugin Name: OnePress Demo Importer
 Plugin URI: http://www.famethemes.com/
-Description: The OnePress Plus plugin adds powerful premium features to OnePress theme.
+Description: One click to import demo content for OnePress theme.
 Author: famethemes
 Author URI:  http://www.famethemes.com/
 Version: 1.0.3
