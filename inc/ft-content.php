@@ -13,11 +13,8 @@ class FT_Demo_Content {
     public $xml_file;
     /**
      * Customize data file
-     * Data type: serialize string
+     * Data type: JSON string
      *
-     * Export by plugin https://wordpress.org/plugins/customizer-export-import/ by Justin Busa
-     *
-     * @see https://wordpress.org/plugins/customizer-export-import/
      * @var string file path
      */
     public $customize_file;
@@ -27,7 +24,6 @@ class FT_Demo_Content {
      *
      * Data type: JSON string
      *
-     * Export by plugin  https://wordpress.org/plugins/widget-importer-exporter/ by Steven Gliebe
      *
      * @var string file path
      */
@@ -35,7 +31,7 @@ class FT_Demo_Content {
 
     /**
      * Options file
-     * Data type: serialize|json string
+     * Data type: JSON string
      *
      * @var string file path
      */
@@ -44,7 +40,7 @@ class FT_Demo_Content {
     /**
      * Option key to store data in $option_file
      *
-     * Data type: serialize|json string
+     * Data type: JSON string
      *
      * @see update_option
      * @var string option_key
@@ -70,6 +66,9 @@ class FT_Demo_Content {
 
     }
 
+    /**
+     * Run import
+     */
     function import(){
         $this->import_xml( $this->xml_file );
         $this->import_customize( $this->customize_file );
@@ -78,6 +77,16 @@ class FT_Demo_Content {
         do_action( 'ft_import_after_imported' );
     }
 
+    /**
+     * Import options
+     *
+     * Export by function get_options
+     *
+     * @see get_option
+     * @param $option_key
+     * @param $file
+     * @return bool
+     */
     function import_options( $option_key, $file ) {
         if ( ! file_exists( $file ) ) {
             return false;
@@ -293,6 +302,16 @@ class FT_Demo_Content {
 
     }
 
+    /**
+     * JSON customize data
+     *
+     * Export by function get_theme_mods
+     *
+     * @see get_theme_mods
+     *
+     * @param $file
+     * @return bool
+     */
     function import_customize( $file ) {
         if ( ! file_exists( $file ) ) {
             return false ;
@@ -312,6 +331,13 @@ class FT_Demo_Content {
 
     }
 
+    /**
+     * Import XML file
+     *
+     * xml file export by WP exporter
+     *
+     * @param $file
+     */
     function import_xml( $file ){
         if ( ! defined('WP_LOAD_IMPORTERS') ) {
             define( 'WP_LOAD_IMPORTERS', true );
@@ -389,7 +415,7 @@ class FT_Demo_Content {
 
 
     /**
-     * Generate export data
+     * Generate Widgets export data
      *
      * @since 0.1
      * @return string Export file contents
@@ -468,6 +494,11 @@ class FT_Demo_Content {
 
     }
 
+    /**
+     * generate theme customize data
+     *
+     * @return mixed|string|void
+     */
     static function generate_theme_mods_export_data(){
         $data = get_theme_mods();
         if ( ! $data ) {
@@ -475,6 +506,13 @@ class FT_Demo_Content {
         }
         return json_encode( get_theme_mods() ) ;
     }
+
+    /**
+     * generate option data
+     * 
+     * @param $option_key
+     * @return mixed|string|void
+     */
     static function generate_options_export_data( $option_key  ){
         $options = get_option( $option_key , array() );
         if ( ! $options ) {
