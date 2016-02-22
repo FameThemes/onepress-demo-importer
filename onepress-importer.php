@@ -35,16 +35,28 @@ class OnePress_Demo_Import {
         } else {
             // Do stuff here.
         }
+        if ( class_exists( 'OnePress_PLus' ) ) {
+            $import = new FT_Demo_Content(array(
+                'xml' => $this->dir.'data/onepress-plus/dummy-data.xml',
+                'customize' => $this->dir.'data/onepress-plus/customize.json',
+                'widget' => $this->dir.'data/onepress-plus/widgets.json',
+                'option' => '',
+                'option_key' => '',
+            ) );
 
-        $import = new FT_Demo_Content(array(
-            'xml' => $this->dir.'data/dummy-data.xml',
-            'customize' => $this->dir.'data/customize.json',
-            'widget' => $this->dir.'data/widgets.json',
-            'option' => '',
-            'option_key' => '',
-        ) );
+            $import->import();
+        } else {
+            $import = new FT_Demo_Content(array(
+                'xml' => $this->dir.'data/onepress/dummy-data.xml',
+                'customize' => $this->dir.'data/onepress/customize.json',
+                'widget' => $this->dir.'data/onepress/widgets.json',
+                'option' => '',
+                'option_key' => '',
+            ) );
 
-        $import->import();
+            $import->import();
+        }
+
 
         update_option( 'ft_demo_imported', 1 );
 
@@ -200,12 +212,13 @@ class OnePress_Demo_Import {
     }
 
 
-
-
 }
 
  //remove_theme_mods();
 
 if ( is_admin() ) {
-    new OnePress_Demo_Import();
+    function pnepress_demo_import_init(){
+        new OnePress_Demo_Import();
+    }
+    add_action( 'plugins_loaded', 'pnepress_demo_import_init' );
 }

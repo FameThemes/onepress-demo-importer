@@ -509,7 +509,7 @@ class FT_Demo_Content {
 
     /**
      * generate option data
-     * 
+     *
      * @param $option_key
      * @return mixed|string|void
      */
