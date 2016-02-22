@@ -62,7 +62,7 @@ class OnePress_Demo_Import {
 
         die( 'done' );
     }
-    function setup_demo(){
+    function setup_demo( $processed_posts  = array() ){
 
         // Try to set home page
         $page = get_page_by_title( 'Home' );
@@ -87,6 +87,47 @@ class OnePress_Demo_Import {
             set_theme_mod( 'nav_menu_locations', $nav_menu_locations );
         }
 
+        // Setup service
+        $services =  $this->resetup_repeater_page_ids( 'onepress_services', 'content_page', $processed_posts );
+        if ( $services ) {
+            set_theme_mod( 'onepress_services',  json_encode( $services ) );
+        }
+
+        // Setup about
+        $abouts =  $this->resetup_repeater_page_ids( 'onepress_about_boxes', 'content_page', $processed_posts );
+        if ( $abouts ) {
+            set_theme_mod( 'onepress_about_boxes',  json_encode( $abouts ) );
+        }
+
+        // If OnePress_PLus Activated
+        if ( class_exists( 'OnePress_PLus' ) ) {
+
+        }
+
+    }
+
+    function resetup_repeater_page_ids( $theme_mod_name, $key, $processed_posts = array() ){
+        // Setup service
+        $data = get_theme_mod( $theme_mod_name );
+        if ( is_string( $data ) ) {
+            $data = json_decode( $data, true );
+        }
+        if ( ! is_array( $data ) ) {
+            return false;
+        }
+        if ( ! is_array( $processed_posts ) ) {
+            return false;
+        }
+
+        if ( ! empty( $data ) && is_array( $data ) ) {
+            foreach ( $data as $k => $v ) {
+                if ( isset( $v[ $key ] ) && isset ( $processed_posts[ $v[ $key ] ] ) ) {
+                    $data[ $k ][ $key ] =  $processed_posts[ $v[ $key ] ];
+                }
+            }
+        }
+
+        return $data;
     }
 
     function add_tab(){

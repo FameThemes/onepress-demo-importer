@@ -4,6 +4,8 @@ class FT_Demo_Content {
     public $dir;
     public $url;
 
+    public $processed_posts;
+
 
     /**
      * XML file to import
@@ -74,7 +76,7 @@ class FT_Demo_Content {
         $this->import_customize( $this->customize_file );
         $this->import_widgets( $this->widget_file );
         $this->import_widgets( $this->option_key, $this->widget_file );
-        do_action( 'ft_import_after_imported' );
+        do_action( 'ft_import_after_imported', $this->processed_posts );
     }
 
     /**
@@ -375,6 +377,7 @@ class FT_Demo_Content {
                 $wp_import = new WP_Import();
                 $wp_import->fetch_attachments = true;
                 $wp_import->import( $file );
+                $this->processed_posts = $wp_import->processed_posts;
                 do_action( 'ft_import_after_xml_imported' );
             }
         }

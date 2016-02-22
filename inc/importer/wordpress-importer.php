@@ -814,9 +814,7 @@ class WP_Import extends WP_Importer {
 					if ( $key && strpos( $key, '_menu_item_' ) === false ) {
 						// export gets meta straight from the DB so could have a serialized string
 						$value = maybe_unserialize( stripslashes_deep( $meta['value'] ) );
-						if ( is_string( $value ) ) {
-							$value = str_replace( '#menu-item-'.intval($item['post_id']), '#menu-item-'.$id, $value );
-						}
+						
 						add_post_meta( $id, $key, $value );
 						do_action( 'import_post_meta', $id, $key, $value );
 					}
