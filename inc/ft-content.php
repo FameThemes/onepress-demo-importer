@@ -130,7 +130,7 @@ class FT_Demo_Content {
         // Hook before import
 
         // Get all available widgets site supports
-        $available_widgets = wie_available_widgets();
+        $available_widgets  = $this->get_available_widgets();
 
         // Get all existing widget instances
         $widget_instances = array();

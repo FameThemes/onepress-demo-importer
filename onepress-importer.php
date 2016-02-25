@@ -65,11 +65,15 @@ class OnePress_Demo_Import {
     function setup_demo( $processed_posts  = array() ){
 
         // Try to set home page
+        // This may return another "Home" page.
+        // maybe someone already added Home page before import
         $page = get_page_by_title( 'Home' );
         if ( get_post_type( $page ) == 'page' ) {
-            echo 'is_home';
             update_option( 'show_on_front', 'page' );
             update_option( 'page_on_front', $page->ID );
+
+            //Make sure home page is using front page template
+            update_post_meta( $page->ID, '_wp_page_template', 'template-frontpage.php' );
 
             // Try to set blog page
             $blog_page = get_page_by_title( 'News' );
