@@ -103,6 +103,12 @@ class OnePress_Demo_Import {
             set_theme_mod( 'onepress_about_boxes',  json_encode( $abouts ) );
         }
 
+        // Setup Team
+        $teams =  $this->resetup_repeater_page_ids( 'onepress_team_members', array( 'user_id', 'id' ), $processed_posts );
+        if ( $abouts ) {
+            set_theme_mod( 'onepress_team_members',  json_encode( $teams ) );
+        }
+
         // If OnePress_PLus Activated
         if ( class_exists( 'OnePress_PLus' ) ) {
 
@@ -123,10 +129,26 @@ class OnePress_Demo_Import {
             return false;
         }
 
-        if ( ! empty( $data ) && is_array( $data ) ) {
-            foreach ( $data as $k => $v ) {
-                if ( isset( $v[ $key ] ) && isset ( $processed_posts[ $v[ $key ] ] ) ) {
-                    $data[ $k ][ $key ] =  $processed_posts[ $v[ $key ] ];
+        if ( ! is_array( $key ) ) {
+            if ( ! empty( $data ) && is_array( $data ) ) {
+                foreach ( $data as $k => $v ) {
+                    if ( isset( $v[ $key ] ) && isset ( $processed_posts[ $v[ $key ] ] ) ) {
+                        $data[ $k ][ $key ] =  $processed_posts[ $v[ $key ] ];
+                    }
+                }
+            }
+        } else if ( count( $key ) > 1 ) {
+            $main_key = isset( $key[ 0 ] ) ? $key[ 0 ] :  false;
+            $sub_key = isset( $key[ 1 ] ) ? $key[ 1 ] :  false;
+            if ( $main_key && $sub_key ) {
+                if ( ! empty( $data ) && is_array( $data ) ) {
+                    foreach ( $data as $k => $v ) {
+                        if ( isset( $v[ $main_key ] ) && is_array( $v[ $main_key ] ) ) {
+                            if ( isset ( $v[ $main_key ][ $sub_key ] ) ) {
+                                $data[ $k ][ $main_key ][ $sub_key ] =  $processed_posts[ $v[ $main_key ][ $sub_key ] ];
+                            }
+                        }
+                    }
                 }
             }
         }
