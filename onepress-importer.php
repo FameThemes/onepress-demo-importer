@@ -5,7 +5,7 @@ Plugin URI: http://www.famethemes.com/
 Description: One click to import demo content for OnePress theme.
 Author: famethemes
 Author URI:  http://www.famethemes.com/
-Version: 1.0.3
+Version: 1.0.4
 Text Domain: onepress-importer
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
