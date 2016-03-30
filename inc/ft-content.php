@@ -76,6 +76,7 @@ class FT_Demo_Content {
         $this->import_customize( $this->customize_file );
         $this->import_widgets( $this->widget_file );
         $this->import_widgets( $this->option_key, $this->widget_file );
+
         do_action( 'ft_import_after_imported', $this->processed_posts );
     }
 

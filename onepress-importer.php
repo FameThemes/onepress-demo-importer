@@ -35,6 +35,8 @@ class OnePress_Demo_Import {
         } else {
             // Do stuff here.
         }
+
+        $demo_url =  'http://demos.famethemes.com/onepress/';
         if ( class_exists( 'OnePress_PLus' ) ) {
             $import = new FT_Demo_Content(array(
                 'xml' => $this->dir.'data/onepress-plus/dummy-data.xml',
@@ -43,6 +45,8 @@ class OnePress_Demo_Import {
                 'option' => '',
                 'option_key' => '',
             ) );
+
+            $demo_url =  'http://demos.famethemes.com/onepress-plus/';
 
             $import->import();
         } else {
@@ -56,6 +60,17 @@ class OnePress_Demo_Import {
 
             $import->import();
         }
+
+        // Update menu URL
+        $home_url = site_url('/');
+        global $wpdb;
+
+        $sql = $wpdb->prepare(
+            "UPDATE {$wpdb->postmeta} SET `meta_value` = REPLACE (`meta_value`, '%s', '%s')",
+            $demo_url,
+            $home_url
+        );
+        $wpdb->query( $sql );
 
 
         update_option( 'ft_demo_imported', 1 );
@@ -187,7 +202,6 @@ class OnePress_Demo_Import {
         }
 
         ?>
-
         <div class="theme_info info-tab-content">
             <?php if ( $show_export ) { ?>
             <?php /*
